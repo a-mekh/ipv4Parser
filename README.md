@@ -114,7 +114,7 @@ The tests ensure the functionality of the `IpV4FileParser` and `DualBitSetContai
 
 The memory usage for the solution has been optimized by utilizing two `BitSet` instances. This approach allows the program to handle large files efficiently without consuming excessive memory.
 
-For example, testing with a 20GB file showed that the program could handle the task in approximately 277 seconds while using minimal memory.
+For example, testing with a 120GB file showed that the program could handle the task in approximately 277 seconds while using minimal memory.
 
 ---
 
