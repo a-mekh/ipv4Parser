@@ -1,6 +1,6 @@
-package com.example.ip4counter.parser.impl;
+package com.example.ip4counter.converter.impl;
 
-import com.example.ip4counter.parser.IpParser;
+import com.example.ip4counter.converter.IpConverter;
 
 /**
  * Utility class for parsing IPv4 addresses from raw byte arrays.
@@ -10,7 +10,7 @@ import com.example.ip4counter.parser.IpParser;
  *
  * <p>This is useful for compact storage and fast comparison.</p>
  */
-public class IpV4Parser implements IpParser {
+public class IpV4Converter implements IpConverter {
 
     private static final byte ASCII_ZERO = '0';
     private static final byte DOT_DELIMITER = '.';

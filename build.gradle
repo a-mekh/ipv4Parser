@@ -13,6 +13,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "failed", "skipped" // Show passed, failed, and skipped tests
+        showStandardStreams = true // Show system output (e.g., print statements in tests)
+    }
 }
 //Increase the size of the heap to 1GB for tests
 tasks.test {

@@ -14,7 +14,7 @@ import java.util.BitSet;
  * positive and negative ranges, we can efficiently track all unique IPv4 addresses using two separate `BitSet` instances,
  * ensuring memory efficiency without creating a single massive `BitSet`.</p>
  */
-public class IpV4DualBitSetContainer implements IntContainer {
+public class DualBitSetContainer implements IntContainer {
 
     private final BitSet positive = new BitSet(Integer.MAX_VALUE);
     private final BitSet negative = new BitSet(Integer.MAX_VALUE);

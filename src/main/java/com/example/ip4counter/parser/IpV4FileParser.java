@@ -1,55 +1,31 @@
-package com.example.ip4counter.processor;
+package com.example.ip4counter.parser;
 
 import com.example.ip4counter.container.IntContainer;
-import com.example.ip4counter.parser.impl.IpV4Parser;
+import com.example.ip4counter.converter.impl.IpV4Converter;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
-public class IpV4FileProcessor {
+public class IpV4FileParser {
 
-    private final IpV4Parser parser;
+    private final IpV4Converter parser;
     private final IntContainer finalSet;
 
-    public IpV4FileProcessor(IntContainer finalSet) {
-        this.parser = new IpV4Parser();
+    public IpV4FileParser(IntContainer finalSet) {
+        this.parser = new IpV4Converter();
         this.finalSet = finalSet;
     }
 
     public void processFile(String filename) {
-        byte[] buffer = new byte[8192]; // 8KB read buffer
-        byte[] lineBuffer = new byte[32]; // max IP line length < 16
-
-        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename))) {
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                processBuffer(buffer, bytesRead, lineBuffer);
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                processLine(line.getBytes(), line.length());
             }
-
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
             System.exit(1);
-        }
-    }
-
-    private void processBuffer(byte[] buffer, int bytesRead, byte[] lineBuffer) {
-        int lineLength = 0; // Reset line length for each buffer read
-        for (int i = 0; i < bytesRead; i++) {
-            byte b = buffer[i];
-
-            if (b == '\n') {
-                if (lineLength > 0) {
-                    processLine(lineBuffer, lineLength);
-                    lineLength = 0;
-                }
-            } else if (b != '\r') {
-                if (lineLength < lineBuffer.length) {
-                    lineBuffer[lineLength++] = b;
-                } else {
-                    throw new IllegalArgumentException("IP line too long");
-                }
-            }
         }
     }
 

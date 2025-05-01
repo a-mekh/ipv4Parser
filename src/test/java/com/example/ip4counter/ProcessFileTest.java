@@ -1,7 +1,8 @@
 package com.example.ip4counter;
 
 import com.example.ip4counter.container.IntContainer;
-import com.example.ip4counter.container.impl.IpV4DualBitSetContainer;
+import com.example.ip4counter.container.impl.DualBitSetContainer;
+import com.example.ip4counter.parser.IpV4FileParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -26,8 +27,8 @@ class ProcessFileTest {
         File tempFile = File.createTempFile("ip_test_", ".txt");
         Files.write(tempFile.toPath(), String.join("\r\n", ips).getBytes());
 
-        IntContainer container = new IpV4DualBitSetContainer();
-        Main.processFile(tempFile.getAbsolutePath(), container);
+        IntContainer container = new DualBitSetContainer();
+        new IpV4FileParser(container).processFile(tempFile.getAbsolutePath());
 
         assertEquals(4, container.countUnique());
 

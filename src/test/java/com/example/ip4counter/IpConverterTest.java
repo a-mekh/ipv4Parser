@@ -1,14 +1,14 @@
 package com.example.ip4counter;
 
-import com.example.ip4counter.parser.IpParser;
-import com.example.ip4counter.parser.impl.IpV4Parser;
+import com.example.ip4counter.converter.IpConverter;
+import com.example.ip4counter.converter.impl.IpV4Converter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class IpParserTest {
+class IpConverterTest {
 
-    private static final IpParser parser = new IpV4Parser();
+    private static final IpConverter parser = new IpV4Converter();
 
     /**
      * Unit test for parseIpFromBuffer.

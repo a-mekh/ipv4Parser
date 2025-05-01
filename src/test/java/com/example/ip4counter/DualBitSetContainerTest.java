@@ -1,13 +1,13 @@
 package com.example.ip4counter;
 
-import com.example.ip4counter.container.impl.IpV4DualBitSetContainer;
+import com.example.ip4counter.container.impl.DualBitSetContainer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class IpV4DualBitSetContainerTest {
+class DualBitSetContainerTest {
 
-    IpV4DualBitSetContainer container = new IpV4DualBitSetContainer();
+    DualBitSetContainer container = new DualBitSetContainer();
 
     @Test
     void testAddAndCountUnique() {

@@ -1,6 +1,6 @@
-package com.example.ip4counter.parser;
+package com.example.ip4counter.converter;
 
-public interface IpParser {
+public interface IpConverter {
 
     /**
      * Parses a single IPv4 address from a byte array (in ASCII form) into a 32-bit integer.
