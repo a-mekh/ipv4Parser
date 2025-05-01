@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+//Increase the size of the heap to 1GB for tests
+tasks.test {
+    maxHeapSize = "1G"
+}
+
+application {
+    mainClass = 'com.example.ip4counter.Main'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.example.ip4counter.Main'
+        )
+    }
+}
