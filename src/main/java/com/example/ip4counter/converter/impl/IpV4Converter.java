@@ -12,7 +12,8 @@ import com.example.ip4counter.converter.IpConverter;
  */
 public class IpV4Converter implements IpConverter {
 
-    private static final byte ASCII_ZERO = '0';
+    private static final int ASCII_ZERO = '0';
+    private static final int ASCII_NINE = '9';
     private static final byte DOT_DELIMITER = '.';
     private static final int DECIMAL_BASE = 10;
     private static final int BITS_PER_OCTET = 8;
@@ -26,21 +27,41 @@ public class IpV4Converter implements IpConverter {
      * @param end   the ending index of the IP address (exclusive) in the byte array
      * @return the 32-bit integer representation of the IPv4 address
      */
-    public int parse(byte[] bytes, int start, int end) {
-        int result = 0;
-        int part = 0;
+    public long parse(byte[] bytes, int start, int end) {
+        long result = 0;
+        long part = 0;
+        int dots = 0;
 
-        for (int i = start; i <= end; i++) {
+        for (int i = start; i < end; i++) {
             byte b = bytes[i];
 
+            // Ignore the symbols of the new line and the return of the carriage
+            if (b == '\n' || b == '\r') {
+                continue;
+            }
+
             if (b == DOT_DELIMITER) {
+                if (part < 0 || part > 255) {
+                    throw new IllegalArgumentException("Octet out of range: " + part);
+                }
                 result = (result << BITS_PER_OCTET) | part;
                 part = 0;
-            } else {
+                dots++;
+            } else if (b >= ASCII_ZERO && b <= ASCII_NINE) {
                 part = part * DECIMAL_BASE + (b - ASCII_ZERO);
+                if (part > 255) {
+                    throw new IllegalArgumentException("Octet value exceeds 255");
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid character in IP: " + (char)b);
             }
         }
 
-        return ((result << Byte.SIZE) | part);
+        // Last octet validation
+        if (dots != 3 || part < 0 || part > 255) {
+            throw new IllegalArgumentException("Invalid IP format");
+        }
+
+        return (result << BITS_PER_OCTET) | part;
     }
 }

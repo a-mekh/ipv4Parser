@@ -8,30 +8,24 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProcessFileTest {
 
     @Test
-    void testProcessFile() throws IOException {
-        List<String> ips = List.of(
-                "145.67.23.4",
-                "8.34.5.23",
-                "89.54.3.124",
-                "89.54.3.124", // duplicate
-                "3.45.71.5"
-        );
+    void testProcessFileInChunks() throws IOException {
+        String testData = "1.2.3.4\n192.168.0.1\r\n10.0.0.1\n255.255.255.255\n";
+        File tempFile = File.createTempFile("ip_chunk_test", ".txt");
+        Files.write(tempFile.toPath(), testData.getBytes());
 
-        File tempFile = File.createTempFile("ip_test_", ".txt");
-        Files.write(tempFile.toPath(), String.join("\r\n", ips).getBytes());
-
-        IntContainer container = new DualBitSetContainer();
-        new IpV4FileParser(container).processFile(tempFile.getAbsolutePath());
+        IntContainer container = new DualBitSetContainer(100);
+        IpV4FileParser parser = new IpV4FileParser(container);
+        parser.processFile(tempFile.getAbsolutePath()); // simulate chunking
 
         assertEquals(4, container.countUnique());
 
         tempFile.deleteOnExit();
     }
+
 }

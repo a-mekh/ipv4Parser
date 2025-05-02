@@ -16,15 +16,20 @@ import java.util.BitSet;
  */
 public class DualBitSetContainer implements IntContainer {
 
-    private final BitSet positive = new BitSet(Integer.MAX_VALUE);
-    private final BitSet negative = new BitSet(Integer.MAX_VALUE);
+    private final BitSet positive;
+    private final BitSet negative;
+
+    public DualBitSetContainer(int size) {
+        this.positive = new BitSet(size);
+        this.negative = new BitSet(size);
+    }
 
     @Override
-    public void add(int i) {
-        if (i >= 0) {
-            positive.set(i);
+    public void add(long value) {
+        if (value <= Integer.MAX_VALUE) {
+            positive.set((int) value);
         } else {
-            negative.set(~i);// ~ip turns -1 → 0, -2 → 1, etc.
+            negative.set((int) (value - (Integer.MAX_VALUE + 1L)));
         }
     }
 
@@ -32,4 +37,5 @@ public class DualBitSetContainer implements IntContainer {
     public long countUnique() {
         return (long) positive.cardinality() + negative.cardinality();
     }
+
 }

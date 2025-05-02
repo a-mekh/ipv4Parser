@@ -23,7 +23,7 @@ public class Main {
         System.out.println("Reading from: " + filename);
 
         long startTime = System.currentTimeMillis();
-        DualBitSetContainer container = new DualBitSetContainer();
+        DualBitSetContainer container = new DualBitSetContainer(Integer.MAX_VALUE);
 
         new IpV4FileParser(container).processFile(filename);
 

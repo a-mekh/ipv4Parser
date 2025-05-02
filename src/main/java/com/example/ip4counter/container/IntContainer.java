@@ -7,7 +7,7 @@ public interface IntContainer {
      *
      * @param ip the signed int representing an IPv4 address
      */
-    void add(int ip);
+    void add(long ip);
 
     /**
      * Returns the number of unique IP addresses stored.
@@ -15,4 +15,5 @@ public interface IntContainer {
      * @return total unique IPs
      */
     long countUnique();
+
 }
